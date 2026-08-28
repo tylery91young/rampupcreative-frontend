@@ -20,7 +20,7 @@ Legend: 🖥️ = Cloudflare dashboard, ⌨️ = terminal in this repo.
 ### 1a. API token for uploads
 🖥️ **R2 → API → "Manage API Tokens" → Create API token**
 - Permissions: **Object Read & Write**
-- Scope: bucket `rampupcreative-media` only
+- Scope: bucket `rampupcreativemedia` only
 - Copy the **Access Key ID**, **Secret Access Key**, and your **Account ID**
   (Account ID is on the R2 overview page).
 
@@ -32,19 +32,24 @@ pip install -r requirements-dev.txt
 export R2_ACCOUNT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 export R2_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxx
 export R2_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# (bucket name defaults to rampupcreative-media)
+# (bucket name defaults to rampupcreativemedia)
 
 python scripts/upload_media.py            # optimises + uploads ~50 images + 3 videos
 ```
 Re-runnable; it skips objects that already exist (`--force` to replace, `--skip-video`
-for images only). It writes `media-manifest.json` (a record of what went where).
+for images only, `--force --only hero` for just one file). It writes
+`media-manifest.json` (a record of what went where).
 
-> **Hero video** is ~73 MB. The script warns about it. Ideally compress
-> `source-materials/uploads/2025/08/EditedHeroVideo.mp4` to ~5–10 MB first
-> (see README → "The hero video is large"), then run the upload.
+On Windows, `scripts/upload-media.ps1` prompts for the three keys and runs the
+upload for you (nothing saved to disk): `.\scripts\upload-media.ps1`.
+
+> **Hero video**: the source is ~72 MB. `scripts/upload_media.py` already points at
+> `EditedHeroVideo.web.mp4`, a pre-compressed 1080p/faststart derivative (~26 MB) —
+> the ffmpeg recipe is in a comment next to the `MEDIA` entry. Regenerate it there if
+> you re-cut the source.
 
 ### 1c. Custom domain on the bucket
-🖥️ **R2 → `rampupcreative-media` → Settings → Public access → "Connect Domain"**
+🖥️ **R2 → `rampupcreativemedia` → Settings → Public access → "Connect Domain"**
 - Domain: `media.rampupcreative.com`
 - Cloudflare adds the DNS record automatically (proxied). Wait for "Active".
 

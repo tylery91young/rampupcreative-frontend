@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 r"""
 Curate + optimise the real Ramp Up Creative media and push it to Cloudflare R2
-(bucket: rampupcreative-media), so the site references media.rampupcreative.com
+(bucket: rampupcreativemedia), so the site references media.rampupcreative.com
 URLs instead of storing binaries in the repo.
 
 Source of truth for keys is the MEDIA list below — it must match the URLs used
@@ -14,10 +14,11 @@ Upload to R2 (needs credentials in the environment):
     export R2_ACCOUNT_ID=...            # Cloudflare account id
     export R2_ACCESS_KEY_ID=...         # R2 API token (Object Read & Write)
     export R2_SECRET_ACCESS_KEY=...
-    export R2_BUCKET=rampupcreative-media   # optional, this is the default
+    export R2_BUCKET=rampupcreativemedia   # optional, this is the default
     python scripts/upload_media.py                 # skips objects already there
     python scripts/upload_media.py --force         # re-upload everything
     python scripts/upload_media.py --skip-video    # images only
+    python scripts/upload_media.py --force --only hero   # just video/hero.mp4
 
 Build optimised copies locally (used by scripts/serve.py, no credentials):
 
@@ -72,8 +73,13 @@ MEDIA: list[tuple[str, str, str, int]] = [
     ("2026/04/dji_fly_20250125_151446_599_1737844850800_photo.jpg",    "photos/about/aerial.jpg",   "photo", 1600),
     # open graph
     (f"{RE}/DJI_0794.jpg",              "og/default.jpg",                "og",    1200),
-    # video (not re-encoded)
-    ("2025/08/EditedHeroVideo.mp4",     "video/hero.mp4",                "video", 0),
+    # video — uploaded as-is (not re-encoded here).
+    # hero.mp4 is a web-optimised derivative of EditedHeroVideo.mp4 (72 MB -> 26 MB,
+    # still 1080p, audio stripped, faststart). Regenerate it with:
+    #   ffmpeg -i EditedHeroVideo.mp4 -map 0:v:0 -map_metadata -1 -an \
+    #     -c:v libx264 -preset slow -crf 25 -maxrate 5M -bufsize 10M -pix_fmt yuv420p \
+    #     -g 60 -movflags +faststart EditedHeroVideo.web.mp4
+    ("2025/08/EditedHeroVideo.web.mp4", "video/hero.mp4",                "video", 0),
     ("2026/04/JLMannEventVideo.mp4",    "video/event-horizontal.mp4",    "video", 0),
     ("2026/04/SnowTylerEmily.mp4",      "video/event-vertical.mp4",      "video", 0),
 ]
@@ -194,7 +200,8 @@ def main() -> None:
     ap.add_argument("--out", default="dist/media-local", help="output dir for --local")
     ap.add_argument("--force", action="store_true", help="overwrite objects that already exist")
     ap.add_argument("--skip-video", action="store_true")
-    ap.add_argument("--bucket", default=os.environ.get("R2_BUCKET", "rampupcreative-media"))
+    ap.add_argument("--only", default="", help="only process dest keys containing this substring (e.g. --only hero)")
+    ap.add_argument("--bucket", default=os.environ.get("R2_BUCKET", "rampupcreativemedia"))
     args = ap.parse_args()
 
     if not UPLOADS.exists():
@@ -214,6 +221,8 @@ def main() -> None:
 
     for src_rel, key, kind, long_edge in MEDIA:
         if kind == "video" and args.skip_video:
+            continue
+        if args.only and args.only not in key:
             continue
         src = UPLOADS / src_rel
         if not src.exists():

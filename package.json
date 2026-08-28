@@ -7,7 +7,7 @@
     "build": "python scripts/build.py",
     "serve": "python scripts/serve.py",
     "predev": "python scripts/build.py",
-    "dev": "wrangler pages dev dist --d1=DB=rampupcreative --compatibility-date=2024-11-01",
+    "dev": "wrangler pages dev dist --compatibility-date=2024-11-01",
     "db:local": "wrangler d1 execute rampupcreative --local --file=./schema.sql",
     "db:remote": "wrangler d1 execute rampupcreative --remote --file=./schema.sql"
   },

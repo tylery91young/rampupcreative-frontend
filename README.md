@@ -6,7 +6,7 @@ Drone photo/video business, Provo & Utah County.
 | Piece | Tech |
 |---|---|
 | Pages | Hand-written HTML/CSS/JS, assembled by a tiny Python builder (`scripts/build.py`). No Node, no framework. |
-| Media (photos/video) | Cloudflare **R2** bucket `rampupcreative-media`, served from `https://media.rampupcreative.com`. Not stored in this repo. |
+| Media (photos/video) | Cloudflare **R2** bucket `rampupcreativemedia`, served from `https://media.rampupcreative.com`. Not stored in this repo. |
 | Contact form | Cloudflare **Pages Function** (`functions/api/contact.js`) → **D1** database, with **Turnstile** anti-spam + email notification via **Resend**. |
 | `/admin` | Password-protected inbox for form submissions, with light triage (mark replied / spam, add notes). |
 
