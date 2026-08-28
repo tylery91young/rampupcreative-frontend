@@ -1,0 +1,21 @@
+# Cloudflare Pages — local dev + binding reference.
+# Cloudflare Pages does NOT read most of this for deploys (project settings in the
+# dashboard win), but `wrangler pages dev` uses it to wire up bindings locally.
+
+name = "rampupcreative-frontend"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "dist"
+
+# D1 database — create it once, then paste the real database_id here and in the
+# Pages project (Settings > Functions > D1 database bindings).
+#   wrangler d1 create rampupcreative
+[[d1_databases]]
+binding = "DB"
+database_name = "rampupcreative"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+# Non-secret vars. Secrets (ADMIN_PASSWORD, ADMIN_SECRET, TURNSTILE_SECRET,
+# RESEND_API_KEY) go in .dev.vars locally and in the Pages dashboard for prod.
+[vars]
+NOTIFY_EMAIL = "tyler@rampupcreative.com"
+FROM_EMAIL = "Ramp Up Creative <noreply@rampupcreative.com>"

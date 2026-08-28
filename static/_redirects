@@ -1,0 +1,13 @@
+# Old WordPress URLs -> new structure. First match wins.
+/home            /                 301
+/home/           /                 301
+/services        /real-estate/     301
+/services/       /real-estate/     301
+/real-estate     /real-estate/     301
+/construction    /construction/    301
+/events          /events/          301
+/about           /about/           301
+/contact         /contact/         301
+/drone-photography-video-in-greenville-sc      /            301
+/drone-photography-video-in-greenville-sc/     /            301
+/hello-world/*   /                 301

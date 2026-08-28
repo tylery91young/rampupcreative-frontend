@@ -1,0 +1,4 @@
+# Only needed to run scripts/upload_media.py (media -> Cloudflare R2).
+# The site build (scripts/build.py) has no dependencies.
+boto3>=1.34
+Pillow>=10.2

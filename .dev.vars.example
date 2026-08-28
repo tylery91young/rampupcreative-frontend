@@ -1,0 +1,18 @@
+# Copy to .dev.vars for `wrangler pages dev`.  NEVER commit .dev.vars.
+# In production these are set in the Cloudflare Pages dashboard
+# (Settings > Environment variables / Secrets).
+
+# Admin page
+ADMIN_PASSWORD="1291"
+# Long random string used to sign the admin session cookie. Generate one:
+#   python -c "import secrets; print(secrets.token_hex(32))"
+ADMIN_SECRET="change-me-to-a-long-random-string"
+
+# Cloudflare Turnstile (contact form anti-spam). Test secret below always passes.
+# Real keys: dash.cloudflare.com > Turnstile > add site rampupcreative.com
+TURNSTILE_SECRET="1x0000000000000000000000000000000AA"
+
+# Email notifications via Resend (https://resend.com). Leave blank to disable.
+RESEND_API_KEY=""
+NOTIFY_EMAIL="tyler@rampupcreative.com"
+FROM_EMAIL="Ramp Up Creative <noreply@rampupcreative.com>"

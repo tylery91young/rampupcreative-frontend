@@ -1,0 +1,89 @@
+<!--meta
+title: Contact — Ramp Up Creative
+description: Get in touch about drone photography and video in Provo and Utah County. Tell me about your real estate, construction, or event project.
+og_image: photos/hero/contact.jpg
+scripts: <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script><script src="/assets/contact.js" defer></script>
+-->
+
+<section class="hero hero--page hero--center">
+  <div class="hero-media">
+    <img src="{{ media_base }}/photos/hero/contact.jpg" alt="Aerial view of Provo, Utah with the mountains behind" width="2560" height="682">
+  </div>
+  <div class="wrap hero-inner">
+    <h1 class="hero-title">Contact Us</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <div>
+        <h2 class="section-title">We're Ready, Let's Talk.</h2>
+        <p class="muted" style="margin:8px 0 22px">Tell me about your project and I'll get back to you quickly — usually the same day.</p>
+
+        <form id="contact-form" novalidate>
+          <div class="field">
+            <label for="cf-name">Your name</label>
+            <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="120">
+          </div>
+          <div class="field">
+            <label for="cf-email">Your email</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="200">
+          </div>
+          <div class="field">
+            <label for="cf-phone">Phone number <span class="muted">(optional)</span></label>
+            <input id="cf-phone" name="phone" type="tel" autocomplete="tel" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="cf-message">Tell me about your project</label>
+            <textarea id="cf-message" name="message" required maxlength="4000"></textarea>
+          </div>
+
+          <!-- honeypot: real people never fill this -->
+          <div class="hp" aria-hidden="true">
+            <label>Company website<input name="company_website" type="text" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-theme="light"></div>
+
+          <button class="btn btn--accent btn--block" type="submit" style="margin-top:14px">Send message</button>
+          <p class="form-note">Protected by Cloudflare Turnstile. Your details are only used to reply to your inquiry.</p>
+          <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <aside class="contact-info">
+        <h2 class="section-title">Contact Info</h2>
+        <dl>
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:{{ contact_email }}">{{ contact_email }}</a></dd>
+          </div>
+          <div>
+            <dt>Call or text</dt>
+            <dd><a href="tel:{{ contact_phone_href }}">{{ contact_phone_display }}</a></dd>
+          </div>
+          <div>
+            <dt>Service area</dt>
+            <dd>Provo &amp; Utah County, Utah</dd>
+          </div>
+          <div>
+            <dt>Follow</dt>
+            <dd>
+              <div class="contact-socials">
+                <a href="{{ instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+                </a>
+                <a href="{{ youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12z"/></svg>
+                </a>
+              </div>
+            </dd>
+          </div>
+        </dl>
+      </aside>
+
+    </div>
+  </div>
+</section>

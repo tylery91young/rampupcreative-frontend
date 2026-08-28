@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://rampupcreative.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://rampupcreative.com/about/</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://rampupcreative.com/real-estate/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://rampupcreative.com/construction/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://rampupcreative.com/events/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://rampupcreative.com/contact/</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+</urlset>
