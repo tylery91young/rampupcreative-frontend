@@ -6,9 +6,9 @@ name = "rampupcreative-frontend"
 compatibility_date = "2024-11-01"
 pages_build_output_dir = "dist"
 
-# D1 database — create it once, then paste the real database_id here and in the
-# Pages project (Settings > Functions > D1 database bindings).
-#   wrangler d1 create rampupcreative
+# D1 database. The id below is the real `rampupcreative` database on Cloudflare
+# (created 2026-08-29). Also bind it in the Pages project itself:
+# Settings > Functions > D1 database bindings > add `DB` -> `rampupcreative`.
 [[d1_databases]]
 binding = "DB"
 database_name = "rampupcreative"
