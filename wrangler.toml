@@ -12,7 +12,7 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "rampupcreative"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "f552b9fa-5988-4851-8888-e6e26786df55"
 
 # Non-secret vars. Secrets (ADMIN_PASSWORD, ADMIN_SECRET, TURNSTILE_SECRET,
 # RESEND_API_KEY) go in .dev.vars locally and in the Pages dashboard for prod.
