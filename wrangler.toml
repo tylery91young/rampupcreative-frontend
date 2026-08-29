@@ -16,6 +16,8 @@ database_id = "f552b9fa-5988-4851-8888-e6e26786df55"
 
 # Non-secret vars. Secrets (ADMIN_PASSWORD, ADMIN_SECRET, TURNSTILE_SECRET,
 # RESEND_API_KEY) go in .dev.vars locally and in the Pages dashboard for prod.
+# NOTE: production reads these from the Pages dashboard, not this file — keep the
+# dashboard values in sync (Settings > Environment variables).
 [vars]
-NOTIFY_EMAIL = "tyler@rampupcreative.com"
+NOTIFY_EMAIL = "tyler64apache@gmail.com"
 FROM_EMAIL = "Ramp Up Creative <noreply@rampupcreative.com>"

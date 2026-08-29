@@ -73,6 +73,12 @@ MEDIA: list[tuple[str, str, str, int]] = [
     ("2026/04/dji_fly_20250125_151446_599_1737844850800_photo.jpg",    "photos/about/aerial.jpg",   "photo", 1600),
     # open graph
     (f"{RE}/DJI_0794.jpg",              "og/default.jpg",                "og",    1200),
+    # event video posters — a real frame from each clip (not a stock photo), so the
+    # preview matches the video. Regenerate with:
+    #   ffmpeg -ss 3  -i JLMannEventVideo.mp4 -frames:v 1 -q:v 2 JLMannEventVideo-poster.jpg
+    #   ffmpeg -ss 12 -i SnowTylerEmily.mp4   -frames:v 1 -q:v 2 SnowTylerEmily-poster.jpg
+    ("2026/04/JLMannEventVideo-poster.jpg", "photos/events/horizontal-poster.jpg", "photo", 1600),
+    ("2026/04/SnowTylerEmily-poster.jpg",   "photos/events/vertical-poster.jpg",   "photo", 1600),
     # video — uploaded as-is (not re-encoded here).
     # hero.mp4 is a web-optimised derivative of EditedHeroVideo.mp4 (72 MB -> 26 MB,
     # still 1080p, audio stripped, faststart). Regenerate it with:
