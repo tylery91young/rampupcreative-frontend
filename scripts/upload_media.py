@@ -64,10 +64,9 @@ MEDIA: list[tuple[str, str, str, int]] = [
     (f"{RE}/DJI_0794.jpg",              "photos/hero/home-poster.jpg",    "photo", 1920),
     # construction
     ("2026/04/Construction.jpg",        "photos/construction/hero.jpg",   "photo", 2560),
-    # home service cards
-    (f"{RE}/DJI_0765.jpg",              "photos/home/real-estate.jpg",    "photo", 1100),
+    # home service cards — real-estate + events cards reuse gallery / event-poster
+    # keys (see src/index.html); only construction has its own dedicated crop.
     ("2026/04/Construction.jpg",        "photos/home/construction.jpg",   "photo", 1100),
-    ("2025/08/events.jpg",              "photos/home/events.jpg",         "photo", 1100),
     # about
     ("2026/04/Screenshot-2026-04-04-144559.png",                       "photos/about/portrait.jpg", "photo", 1400),
     ("2026/04/dji_fly_20250125_151446_599_1737844850800_photo.jpg",    "photos/about/aerial.jpg",   "photo", 1600),
