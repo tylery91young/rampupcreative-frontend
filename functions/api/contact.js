@@ -3,6 +3,23 @@
 const MAX = { name: 120, email: 200, phone: 40, message: 4000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Known spam phone numbers (digits only). Extra numbers can be added without a
+// code change via a comma-separated BLOCKED_PHONES env var in the Pages dashboard.
+const BLOCKED_PHONES = ["3072076448"];
+
+const digits = (v) => String(v || "").replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+
+function isSpam(env, { phone, message }) {
+  const blocked = BLOCKED_PHONES.concat(
+    String(env.BLOCKED_PHONES || "").split(",").map(digits).filter(Boolean)
+  );
+  if (phone && blocked.includes(digits(phone))) return true;
+  if (blocked.some((n) => digits(message).includes(n))) return true;
+  // A "message" that is nothing but a phone number is a bot, not an inquiry.
+  if (/^[\d\s()+.-]+$/.test(message) && digits(message).length >= 7) return true;
+  return false;
+}
+
 const json = (obj, status = 200, headers = {}) =>
   new Response(JSON.stringify(obj), {
     status,
@@ -92,18 +109,22 @@ async function handle(context) {
     }
   }
 
+  // Known spam: store it already marked as spam, skip the email, and answer like
+  // a success so the bot has nothing to adapt to.
+  const spam = isSpam(env, { phone, message });
+
   let id;
   try {
     const res = await env.DB.prepare(
-      "INSERT INTO submissions (name, email, phone, message, page, ip, user_agent, turnstile_ok) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    ).bind(name, email, phone || null, message, page || null, ip || null, ua || null, turnstileOk).run();
+      "INSERT INTO submissions (name, email, phone, message, page, ip, user_agent, turnstile_ok, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    ).bind(name, email, phone || null, message, page || null, ip || null, ua || null, turnstileOk, spam ? "spam" : "new").run();
     id = res.meta && res.meta.last_row_id;
   } catch (err) {
     return json({ ok: false, error: "Could not save your message. Please email tyler@rampupcreative.com." }, 500);
   }
 
   // Email notification (non-blocking, best effort).
-  if (env.RESEND_API_KEY) {
+  if (env.RESEND_API_KEY && !spam) {
     context.waitUntil(sendEmail(env, { id, name, email, phone, message, page, ip }));
   }
 
