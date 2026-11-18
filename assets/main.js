@@ -112,6 +112,14 @@
     box.querySelector(".lb-prev").addEventListener("click", function () { show(idx - 1); });
     box.querySelector(".lb-next").addEventListener("click", function () { show(idx + 1); });
     box.addEventListener("click", function (e) { if (e.target === box) hide(); });
+    var touchX = null;
+    box.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener("touchend", function (e) {
+      if (touchX === null) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) > 40) show(dx < 0 ? idx + 1 : idx - 1);
+    });
     document.addEventListener("keydown", function (e) {
       if (!box.classList.contains("is-open")) return;
       if (e.key === "Escape") hide();

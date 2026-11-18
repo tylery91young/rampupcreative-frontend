@@ -99,7 +99,6 @@ PRO = "2026/11"
 PROPOSAL_GALLERY = [
     (37, "provo-proposal-kneeling-sunset-utah-valley"),
     (44, "utah-county-engagement-ring-reveal"),
-    (46, "engagement-ring-over-shoulder-utah"),
     (38, "surprise-proposal-photographer-provo"),
     (45, "she-said-yes-ring-utah-county"),
     (39, "engaged-couple-overlooking-utah-lake"),
@@ -119,6 +118,7 @@ PROPOSAL_GALLERY = [
     (9,  "engagement-photos-wasatch-front"),
     (10, "drone-wide-shot-couple-mountain-meadow"),
     (19, "couple-walking-mountain-foothills-utah"),
+    (13, "proposal-hike-wasatch-mountain-meadow"),
     (2,  "fall-engagement-photos-utah-county"),
     (47, "engaged-couple-twilight-utah-valley"),
 ]
@@ -137,6 +137,12 @@ MEDIA += [
     #   (reel: same, but -vf scale=720:-2 -maxrate 2M -bufsize 4M -> ProposalReel.web.mp4)
     (f"{PRO}/ProposalVideo.web.mp4",      "video/proposal-film.mp4",             "video", 0),
     (f"{PRO}/ProposalReel.web.mp4",       "video/proposal-reel.mp4",             "video", 0),
+    # Muted hero loop: the film re-cut to start at its midpoint (49.472 s) and wrap
+    # around to the start, so it opens mid-flight and the loop point is seamless:
+    #   ffmpeg -i "Proposal Horizontal 4K.mp4" -filter_complex "[0:v]scale=1920:-2,split[a][b];    #     [a]trim=start=49.472,setpts=PTS-STARTPTS[x];[b]trim=end=49.472,setpts=PTS-STARTPTS[y];    #     [x][y]concat=n=2:v=1:a=0[out]" -map "[out]" -an -c:v libx264 -preset slow -crf 26     #     -maxrate 2.5M -bufsize 5M -pix_fmt yuv420p -g 60 -movflags +faststart ProposalHeroLoop.web.mp4
+    #   ffmpeg -ss 49.5 -i "Proposal Horizontal 4K.mp4" -frames:v 1 -vf scale=1920:-2 -q:v 2 ProposalHeroLoop-poster.jpg
+    (f"{PRO}/ProposalHeroLoop.web.mp4",   "video/proposal-hero.mp4",             "video", 0),
+    (f"{PRO}/ProposalHeroLoop-poster.jpg", "photos/proposal/hero-loop-poster.jpg", "photo", 1920),
 ]
 for n, slug in PROPOSAL_GALLERY:
     MEDIA.append((f"{PRO}/engagement/proposal-{n}.jpg", f"photos/proposal/{slug}.jpg", "photo+thumb", 2000))
