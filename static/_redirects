@@ -8,6 +8,15 @@
 /events          /events/          301
 /about           /about/           301
 /contact         /contact/         301
+/proposals              /proposals/   301
+/proposal               /proposals/   301
+/proposal/              /proposals/   301
+/engagements            /proposals/   301
+/engagements/           /proposals/   301
+/engagement             /proposals/   301
+/engagement/            /proposals/   301
+/engagement-photos      /proposals/   301
+/engagement-photos/     /proposals/   301
 /drone-photography-video-in-greenville-sc      /            301
 /drone-photography-video-in-greenville-sc/     /            301
 /hello-world/*   /                 301

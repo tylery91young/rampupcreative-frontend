@@ -94,6 +94,8 @@
     var show = function (i) {
       idx = (i + links.length) % links.length;
       lbImg.src = links[idx].getAttribute("href");
+      var thumb = links[idx].querySelector("img");
+      lbImg.alt = thumb ? thumb.alt : "";
       box.classList.add("is-open");
       document.body.style.overflow = "hidden";
     };

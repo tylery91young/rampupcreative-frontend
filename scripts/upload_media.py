@@ -91,6 +91,56 @@ MEDIA: list[tuple[str, str, str, int]] = [
 for name in GALLERY:
     MEDIA.append((f"{RE}/{name}.jpg", f"photos/re/{name}.jpg", "photo+thumb", 2000))
 
+# ---- proposals / engagements --------------------------------------------
+# Tyler's own proposal (Nov 2026). Sources are the edited Lightroom exports,
+# renamed proposal-<n>.jpg after their "Proposal (<n> of 47)" number. Keys are
+# descriptive on purpose — the filename shows up in Google Images.
+PRO = "2026/11"
+PROPOSAL_GALLERY = [
+    (37, "provo-proposal-kneeling-sunset-utah-valley"),
+    (44, "utah-county-engagement-ring-reveal"),
+    (46, "engagement-ring-over-shoulder-utah"),
+    (38, "surprise-proposal-photographer-provo"),
+    (45, "she-said-yes-ring-utah-county"),
+    (39, "engaged-couple-overlooking-utah-lake"),
+    (29, "drone-proposal-photo-overhead-embrace"),
+    (32, "aerial-engagement-photo-couple-in-grass"),
+    (34, "drone-engagement-photography-utah"),
+    (30, "black-and-white-aerial-engagement-photo"),
+    (31, "overhead-drone-couple-photo-provo"),
+    (41, "couple-watching-sunset-over-utah-valley"),
+    (20, "golden-hour-engagement-photos-wasatch"),
+    (21, "alpenglow-couple-photo-utah-mountains"),
+    (25, "golden-hour-portrait-wasatch-mountains"),
+    (23, "black-and-white-engagement-photo-utah"),
+    (6,  "engagement-session-mountain-meadow-utah"),
+    (4,  "couple-kiss-utah-county-mountains"),
+    (7,  "couple-looking-at-mountains-provo"),
+    (9,  "engagement-photos-wasatch-front"),
+    (10, "drone-wide-shot-couple-mountain-meadow"),
+    (19, "couple-walking-mountain-foothills-utah"),
+    (2,  "fall-engagement-photos-utah-county"),
+    (47, "engaged-couple-twilight-utah-valley"),
+]
+MEDIA += [
+    (f"{PRO}/engagement/proposal-37.jpg", "photos/proposal/hero.jpg",            "photo", 2560),
+    (f"{PRO}/engagement/proposal-37.jpg", "og/proposals.jpg",                    "og",    1200),
+    # video posters — a real frame from each cut. Regenerate with:
+    #   ffmpeg -ss 3 -i "Proposal Horizontal 4K.mp4" -frames:v 1 -vf scale=1920:-2 -q:v 2 ProposalVideo-poster.jpg
+    #   ffmpeg -ss 3 -i "Proposal Reel.mp4"          -frames:v 1 -q:v 2 ProposalReel-poster.jpg
+    (f"{PRO}/ProposalVideo-poster.jpg",   "photos/proposal/film-poster.jpg",     "photo", 1600),
+    (f"{PRO}/ProposalReel-poster.jpg",    "photos/proposal/reel-poster.jpg",     "photo", 1600),
+    # Web derivatives of the 4K / 1080x1920 masters (99 s, one drone take). Regenerate:
+    #   ffmpeg -i "Proposal Horizontal 4K.mp4" -map 0:v:0 -map 0:a:0 -map_metadata -1 \
+    #     -vf scale=1920:-2 -c:v libx264 -preset slow -crf 24 -maxrate 3M -bufsize 6M \
+    #     -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -movflags +faststart ProposalVideo.web.mp4
+    #   (reel: same, but -vf scale=720:-2 -maxrate 2M -bufsize 4M -> ProposalReel.web.mp4)
+    (f"{PRO}/ProposalVideo.web.mp4",      "video/proposal-film.mp4",             "video", 0),
+    (f"{PRO}/ProposalReel.web.mp4",       "video/proposal-reel.mp4",             "video", 0),
+]
+for n, slug in PROPOSAL_GALLERY:
+    MEDIA.append((f"{PRO}/engagement/proposal-{n}.jpg", f"photos/proposal/{slug}.jpg", "photo+thumb", 2000))
+
 BIG_VIDEO_WARN_MB = 25
 
 

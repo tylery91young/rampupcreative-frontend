@@ -6,6 +6,23 @@
   var statusEl = document.getElementById("contact-status");
   var btn = form.querySelector('button[type="submit"]');
 
+  // Links like /contact/?topic=proposal pre-start the message.
+  var starters = {
+    proposal: "Hi Tyler! I'm planning a proposal and would love your help capturing it.
+
+Date (or rough timeframe): 
+Location idea: 
+Photos, drone video, or both: 
+",
+    engagement: "Hi Tyler! We're engaged and looking to book an engagement session.
+
+Date (or rough timeframe): 
+Location idea: 
+"
+  };
+  var topic = new URLSearchParams(location.search).get("topic");
+  if (starters[topic] && !form.message.value) form.message.value = starters[topic];
+
   function setStatus(kind, msg) {
     statusEl.className = "form-status is-shown " + kind;
     statusEl.textContent = msg;
