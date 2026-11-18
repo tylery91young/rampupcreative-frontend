@@ -465,8 +465,10 @@ body.home .site-header.is-stuck .site-nav a.nav-cta { background: var(--ink); co
    Proposals — photo grid, split, checklist, FAQ
    ========================================================================= */
 .hero-eyebrow { color: rgba(255, 255, 255, 0.78); text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-bottom: 10px; }
-.hero--proposal .hero-media img { object-position: center 60%; }
-.hero--proposal .hero-inner { min-height: min(78vh, 680px); }
+/* full-screen; copy sits low so it stays under the couple walking mid-frame */
+.hero--proposal .hero-inner { min-height: calc(100vh - var(--header-h)); min-height: calc(100svh - var(--header-h)); padding-block: 120px 44px; }
+.hero--proposal .hero-media video { object-position: 40% center; }
+.hero--proposal .hero-media::after { background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.72) 100%); }
 
 /* Uniform 16:9 tiles, two-up at every width. */
 .photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -477,14 +479,28 @@ body.home .site-header.is-stuck .site-nav a.nav-cta { background: var(--ink); co
 
 .section--white { background: var(--surface); }
 
-/* text over a full-bleed photo */
-.photo-band { position: relative; overflow: hidden; background: var(--ink); color: #fff; text-align: center; }
-.photo-band > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
-.photo-band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.6)); }
-.photo-band-inner { position: relative; z-index: 1; padding-block: clamp(110px, 18vw, 220px); }
-.photo-band h2 { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.45); }
-.photo-band .eyebrow { color: rgba(255,255,255,.75); }
-.photo-band .lead { color: rgba(255,255,255,.92); margin: 16px auto 28px; max-width: 640px; text-shadow: 0 2px 12px rgba(0,0,0,.5); }
+/* Text over a full-bleed photo that fades into the page at top and bottom.
+   The couple sits centre-left in hero.jpg, so the copy goes on the right. */
+.photo-band { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--surface), var(--bg)); color: #fff; }
+.photo-band-media {
+  position: absolute; inset: 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+}
+.photo-band-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+.photo-band-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.6) 72%); }
+.photo-band-inner { position: relative; z-index: 1; min-height: min(100vh, 920px); display: flex; align-items: center; justify-content: flex-end; padding-block: 160px; }
+.photo-band-text { max-width: 420px; }
+.photo-band h2 { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.5); }
+.photo-band .eyebrow { color: rgba(255,255,255,.8); }
+.photo-band .lead { color: rgba(255,255,255,.94); margin: 14px 0 26px; text-shadow: 0 2px 12px rgba(0,0,0,.55); }
+@media (max-width: 760px) {
+  /* portrait crop: copy over the sky up top, couple below it */
+  .photo-band-media { -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 9%, #000 91%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 9%, #000 91%, transparent 100%); }
+  .photo-band-media img { object-position: 45% center; }
+  .photo-band-media::after { background: linear-gradient(180deg, rgba(0,0,0,0.6) 10%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0) 70%); }
+  .photo-band-inner { min-height: 980px; align-items: flex-start; justify-content: center; text-align: center; padding-block: 70px 60px; }
+}
 
 .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 56px); align-items: center; }
 .split-media img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); aspect-ratio: 4 / 3; object-fit: cover; }

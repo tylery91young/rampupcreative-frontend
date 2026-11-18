@@ -15,6 +15,7 @@ Cloudflare Pages build command:  python3 scripts/build.py   (output dir: dist)
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -64,6 +65,22 @@ def parse_front_matter(text: str) -> tuple[dict, str]:
 
 
 TOKEN_RE = re.compile(r"\{\{\s*([a-zA-Z0-9_]+)\s*\}\}")
+
+# /assets/* is served "immutable" for a year (static/_headers), so every
+# reference gets a ?v=<content hash> -- a changed file means a new URL.
+ASSET_REF_RE = re.compile(r"""(["'])/assets/([A-Za-z0-9_.-]+\.(?:css|js))\1""")
+
+
+def fingerprint_assets(html: str) -> str:
+    def repl(match: re.Match) -> str:
+        quote, name = match.group(1), match.group(2)
+        path = ASSETS / name
+        if not path.exists():
+            return match.group(0)
+        digest = hashlib.sha1(path.read_bytes()).hexdigest()[:10]
+        return f"{quote}/assets/{name}?v={digest}{quote}"
+
+    return ASSET_REF_RE.sub(repl, html)
 
 
 def substitute(text: str, values: dict, strict: bool = True) -> str:
@@ -139,7 +156,7 @@ def build(media_base_override: str | None = None) -> None:
         # Substitute them here (non-strict) before the body goes into the shell.
         values["content"] = substitute(body.strip(), values, strict=False)
 
-        html = substitute(base, values)
+        html = fingerprint_assets(substitute(base, values))
 
         if slug in ROOT_PAGES:
             out = DIST / ROOT_PAGES[slug]
